@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Esme Louise Robinson Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">    // Navigation link activation
+    const navLinks = document.querySelectorAll('.nav a');
+    window.addEventListener('scroll', () => {
+      document.querySelectorAll('section').forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+          navLinks.forEach(link => link.classList.remove('active'));
+          navLinks[index].classList.add('active');
+        }
+      });
+    });
+$1
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+      height: 100vh;
+    }
+    canvas { display: block; }
+    main {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
+    }
+    section {
+      scroll-snap-align: start;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+      text-align: center;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h1 {
+      font-size: 6rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+    }
+    h2 {
+      font-size: 4rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      line-height: 1.6;
+    }
+      .nav {
+      position: fixed;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 10;
+    }
+    .nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+    .nav a:hover,
+    .nav a.active {
+      opacity: 1;
+    }
+$1
+</head>
+$1
+  <nav class="nav">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#resume">Resume</a>
+    <a href="#projects">Projects</a>
+  </nav>
+  <main>
+    <section id="home">
+      <canvas id="bgCanvas"></canvas>
+      <div class="overlay-content">
+        <h1>Esme Louise Robinson</h1>
+        <p>Creative strategist & visual thinker blending brutalist principles with immersive 3D storytelling.</p>
+      </div>
+    </section>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>I come from a background in luxury fashion and now blend business, design, and storytelling to craft impactful experiences.</p>
+    </section>
+    <section id="resume">
+      <h2>Resume</h2>
+      <p>I've studied business management and consulted for global reinsurance firms, blending creative insight with analytical rigor.</p>
+    </section>
+    <section id="projects">
+      <h2>Passions & Projects</h2>
+      <p>I love crafting visual stories, building immersive portfolio worlds, and exploring identity and culture through digital expression.</p>
+    </section>
+  </main>
+  <script>
+    // Reveal sections on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => observer.observe(section));
+
+    // Rotating globe
+    const canvas = document.getElementById('bgCanvas');
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 7;
+    const globe = new THREE.Mesh(
+      new THREE.SphereGeometry(2.5, 64, 64),
+      new THREE.MeshNormalMaterial({ wireframe: true })
+    );
+    scene.add(globe);
+    function animate() {
+      requestAnimationFrame(animate);
+      globe.rotation.x += 0.01;
+      globe.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
